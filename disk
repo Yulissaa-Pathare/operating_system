@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int req[8] = {98, 183, 37, 122, 14, 124, 65, 67};
+    int n = 8;
+    int head = 53;
+
+    int i;
+
+    int total = 0;
+    int current = head;
+
+    printf("FCFS Order: %d ", current);
+
+    for(i = 0; i < n; i++) {
+        printf("-> %d ", req[i]);
+
+        int diff = current - req[i];
+        if(diff < 0)
+            diff = -diff;
+
+        total = total + diff;
+        current = req[i];
+    }
+
+    printf("\nFCFS Total Seek Time: %d\n\n", total);
+
+    int visited[8];
+    for(i = 0; i < n; i++) {
+        visited[i] = 0;
+    }
+
+    total = 0;
+    current = head;
+
+    printf("SSTF Order: %d ", current);
+
+    int count = 0;
+
+    while(count < n) {
+
+        int index = -1;
+        int min = 10000;
+
+        for(i = 0; i < n; i++) {
+            if(visited[i] == 0) {
+
+                int diff = current - req[i];
+                if(diff < 0)
+                    diff = -diff;
+
+                if(diff < min) {
+                    min = diff;
+                    index = i;
+                }
+            }
+        }
+
+        visited[index] = 1;
+
+        printf("-> %d ", req[index]);
+
+        total = total + min;
+        current = req[index];
+
+        count = count + 1;
+    }
+
+    printf("\nSSTF Total Seek Time: %d\n");
+
+    return 0;
+}
